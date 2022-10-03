@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // annotation to create a RESTful web services
-@RequestMapping("/api/news")  //prefix of API
+@RequestMapping("/api/nba")  //prefix of API
 public class NbaApiController {
     private JSONObject body; //last run result
     private HttpStatus status; //last run status
@@ -22,7 +22,7 @@ public class NbaApiController {
 
     // GET Covid 19 Stats
     @GetMapping("/daily")   //added to end of prefix as endpoint
-    public ResponseEntity<JSONObject> getNews() {
+    public ResponseEntity<JSONObject> getNba() {
 
         //calls API once a day, sets body and status properties
         String today = new Date().toString().substring(0,10); 
