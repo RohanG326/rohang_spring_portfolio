@@ -40,41 +40,54 @@ public class APCalendar {
      * dayOfYear(3, 1, 2016) returns 61, since 2016 is a leap year. 
     */ 
     public static int dayOfYear(int month, int day, int year) {
-        int n = 0;
-        int jan, mar, may, jul, aug, oct, dec;
-        jan = mar = may = jul = aug = oct = dec = 31;
-        int apr, jun, sep, nov;
-        apr = jun = sep = nov = 30;
-        int feb = 28;
-         if (isLeapYear(year) == true) {
-            feb = 29;
+        int num = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(1, 0);
+        map.put(2, 31);
+        map.put(3, 59);
+        map.put(4, 90);
+        map.put(5, 120);
+        map.put(6, 151);
+        map.put(7, 181);
+        map.put(8, 212);
+        map.put(9, 243);
+        map.put(10, 273);
+        map.put(11, 304);
+        map.put(12, 334);
+        if (isLeapYear(year) && month > 2) {
+            num = map.get(month) + day + 1;
+
+        } else {
+            num = map.get(month) + day;
         }
 
-        int[] months = {jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
-        for (int i = 0; i < month - 1; i++) {
-            n += months[i];
-        }
-
-        n += day;
-        
-        return n;
+        return num;
     }
     /** Returns the number of leap years between year1 and year2, inclusive.
      * Precondition: 0 <= year1 <= year2
     */ 
     public static int numberOfLeapYears(int year1, int year2) {
-         // to be implemented in part (a)
-
-        return 0;
+        // to be implemented in part (a)
+        int count = 0;
+        for (int i = year1; i <= year2; i++) {
+            if (isLeapYear(i)) {
+                count++;
+            }
         }
+        return count;
+    }
 
-    /** Returns the value representing the day of the week for the given date
+    /**
+     * Returns the value representing the day of the week for the given date
      * Precondition: The date represented by month, day, year is a valid date.
-    */
-    public static int dayOfWeek(int month, int day, int year) { 
+     */
+    public static int dayOfWeek(int month, int day, int year) {
         // to be implemented in part (b)
-        return 0;
-        }
+        Date today = new Date(year-1900, month-1, day);
+
+        return today.getDay();
+    }
+
 
     /** Tester method */
     public static void main(String[] args) {
@@ -82,10 +95,10 @@ public class APCalendar {
         System.out.println("firstDayOfYear: " + APCalendar.firstDayOfYear(2022));
         System.out.println("dayOfYear: " + APCalendar.dayOfYear(1, 1, 2022));
 
-        // // Public access modifiers
-        // System.out.println("isLeapYear: " + APCalendar.isLeapYear(2022));
-        // System.out.println("numberOfLeapYears: " + APCalendar.numberOfLeapYears(2000, 2022));
-        // System.out.println("dayOfWeek: " + APCalendar.dayOfWeek(1, 1, 2022));
+        // Public access modifiers
+        System.out.println("isLeapYear: " + APCalendar.isLeapYear(2022));
+        System.out.println("numberOfLeapYears: " + APCalendar.numberOfLeapYears(2000, 2022));
+        System.out.println("dayOfWeek: " + APCalendar.dayOfWeek(1, 1, 2022));
     }
 
 }
