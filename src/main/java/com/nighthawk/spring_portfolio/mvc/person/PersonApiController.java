@@ -66,6 +66,7 @@ public class PersonApiController {
                                              @RequestParam("password") String password,
                                              @RequestParam("name") String name,
                                              @RequestParam("dob") String dobString,
+                                             @RequestParam("steps") int steps,
                                              @RequestParam("weight") double weight,
                                              @RequestParam("height") double height) {
         Date dob;
@@ -74,7 +75,7 @@ public class PersonApiController {
         } catch (Exception e) {
             return new ResponseEntity<>(dobString +" error; try MM-dd-yyyy", HttpStatus.BAD_REQUEST);
         }
-        Person person = new Person(email, password, name, dob, weight, height);
+        Person person = new Person(email, password, name, dob, steps, weight, height);
         repository.save(person);
         return new ResponseEntity<>(email +" is created successfully", HttpStatus.CREATED);
     }
@@ -114,9 +115,9 @@ public class PersonApiController {
             }
 
             // Set Date and Attributes to SQL HashMap
-            Map<String, Map<String, Object>> date_map = new HashMap<>();
+            Map<String, Map<String, Object>> date_map = person.getStats();
             date_map.put( (String) stat_map.get("date"), attributeMap );
-            //person.setStats(date_map);  // BUG, needs to be customized to replace if existing or append if new
+            person.setStats(date_map);  // BUG, needs to be customized to replace if existing or append if new
             repository.save(person);  // conclude by writing the stats updates
 
             // return Person with update Stats

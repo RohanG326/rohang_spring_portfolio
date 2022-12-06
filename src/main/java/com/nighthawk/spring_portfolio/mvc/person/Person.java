@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.data.mongodb.core.schema.JsonSchemaObject.Type.JsonType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,10 +65,10 @@ public class Person {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
-    @Column(unique=false)
+    private int steps;
+
     private double weight;
 
-    @Column(unique=false)
     private double height;
 
     /*
@@ -80,23 +80,21 @@ public class Person {
      * }
      * }
      */
-
-    /*
-     * @Type(type="json")
-     * 
-     * @Column(columnDefinition = "jsonb")
-     * private Map<String,Map<String, Object>> stats = new HashMap<>();
-     */
+    @Type(type = "json")
+    @Column(columnDefinition = "jsonb")
+    private Map<String, Map<String, Object>> stats = new HashMap<>();
 
     // Constructor used when building object from an API
-    public Person(String email, String password, String name, Date dob, double weight, double height) {
+    public Person(String email, String password, String name, Date dob, int steps, double weight, double height) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.dob = dob;
+        this.steps = steps;
         this.weight = weight;
         this.height = height;
     }
+
 
     // A custom getter to return age from dob attribute
     public int getAge() {
@@ -121,19 +119,16 @@ public class Person {
     }
 
     public String toString() {
-        return ("{ \"email\": " + this.email + ", " + "\"name\": " + this.name + ", " + "\"password\": " + this.password
-                + ", " +
-                "\"dob\": " + this.dob + ", " + "\"weight\": " + this.weight + ", " + "\"height\": " + this.height
-                + ", " + "\"age\": " + this.getAge() +
-                ", " + "\"BMI\": " + this.BMI() + " }");
+        return ("{ \"Name\": " + this.name + ", " + "\"DOB\": " + this.dob + ", " + "\"Weight\": " + this.weight + ", " + "\"Height\": " + this.height + "," + "\"Steps\": " + this.steps + " }");
     }
 
     public static void main(String[] args) {
         Person noArg = new Person();
         Date date = new Date(106, 2, 2);
-        Person rohan = new Person("gaikwadrohan326@gmail.com", "12345678", "Rohan", date, 165, 70);
+        Person rohan = new Person("gaikwadrohan326@gmail.com", "12345678", "Rohan", date, 4000, 165, 70);
         System.out.println(noArg);
         System.out.println(rohan);
         System.out.println(rohan.getAge());
     }
+
 }
