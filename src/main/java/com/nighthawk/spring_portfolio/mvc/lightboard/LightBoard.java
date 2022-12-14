@@ -73,8 +73,8 @@ public class LightBoard {
     /* Output is intended for Terminal, draws color palette */
     public String toColorPalette() {
         // block sizes
-        final int ROWS = 5;
-        final int COLS = 10;
+        final int ROWS = 7;
+        final int COLS = 15;
 
         // Build large string for entire color palette
         String outString = "";
@@ -135,7 +135,7 @@ public class LightBoard {
                 lights[i][j].setOn(true);
             }
         }
-        System.out.println("all lights are on");
+        System.out.println("set all lights on");
     }
 
     public void setColor(int row, int col, short r, short g, short b) {
